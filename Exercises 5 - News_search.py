@@ -1,3 +1,5 @@
+#Telegram bot: @apmath_classificator_bot
+
 from elasticsearch import Elasticsearch
 from tqdm import tqdm
 import requests
