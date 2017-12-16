@@ -4,6 +4,7 @@ import requests
 import lxml.html
 import lxml.etree
 import sqlite3
+from datetime import datetime
 import time
 import os.path
 
@@ -106,8 +107,7 @@ def get_updates(timeout = 30):
 def send_message(chat_id, text):
     params = {'chat_id': chat_id, 'text': text}
     return (req('sendMessage', params)).json()
-
-#Поиск
+    
 def index(path, db_name):
     es.indices.create(index='news')
     f = open(path + db_name + '.db', 'a')
@@ -121,7 +121,7 @@ def index(path, db_name):
     conn.close()
     
 def search(text):
-    t = es.search(index='news', doc_type='news', q=text)
+    t = es.search(index='news', doc_type='news', q=text, size = "3")
     r = []
     for i in range(len(t['hits']['hits'])):
         tm = t['hits']['hits'][i]['_source']
@@ -134,7 +134,7 @@ def main():
     master_id = 0
     start_year = 2015
     fin_year = 2017
-    
+    print('Бот запущен.')
     while True:
         r = get_updates()
         if(r):
@@ -172,6 +172,7 @@ def main():
                 except:
                     send_message(chat_id, 'Ошибка')
     return
+
 
 if __name__ == '__main__':  
     try:
