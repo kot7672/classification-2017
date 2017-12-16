@@ -106,7 +106,8 @@ def get_updates(timeout = 30):
 def send_message(chat_id, text):
     params = {'chat_id': chat_id, 'text': text}
     return (req('sendMessage', params)).json()
-    
+
+#Поиск
 def index(path, db_name):
     es.indices.create(index='news')
     f = open(path + db_name + '.db', 'a')
@@ -162,7 +163,7 @@ def main():
                         get_updates(1)
                         return
                 if text == '/start':
-                    send_message(chat_id, 'Отправьте боту текст новости для получения категории')
+                    send_message(chat_id, 'Отправьте боту поисковой запрос для получения новости')
                     continue
                 try:
                     s = search(text)
